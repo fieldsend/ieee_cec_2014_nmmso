@@ -59,11 +59,16 @@ function [evals_before, swarm_before, X_before, Y_before, evals_after, ...
 % and current particle locations (second half) at evals_after
 % Y_after = function response at X locations at evals_after
 
+if (max_evaluations<=0)
+   error('max_evaluations argument must be positive'); 
+end
+
 % at start no evaluations used, and swarm structure is empty
 evals_after = 0;
 swarm_after = [];
 X_after=[];
 Y_after=[];
+
 while (evals_after < max_evaluations)
     evals_before = evals_after;
     swarm_before = swarm_after;
