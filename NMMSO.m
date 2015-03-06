@@ -16,6 +16,8 @@ function [mode_loc_before,mode_y_before,evaluations_before,nmmso_state, ...
 % Please reference this paper if you undertake work utilising this code.
 % Implementation (c) by Jonathan Fieldsend, University of Exeter, 2014
 %
+% Thanks to Zhan Dawei for identifying the error in the tol_val check
+%
 % Assumes function maximisation
 %
 % REQUIRED ARGUMENTS
@@ -72,7 +74,7 @@ if max_evol<=0
     max_evol=100;
 end
 
-if exist('tol_value','var') ==0
+if exist('tol_val','var') ==0
     tol_val = 10^-6;
 end
 
