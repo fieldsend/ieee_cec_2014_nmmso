@@ -66,7 +66,7 @@ if max_evol<=0
     max_evol=100;
 end
 
-if exist('tol_value','var') ==0
+if exist('tol_val','var') ==0
     tol_val = 10^-6;
 end
 
