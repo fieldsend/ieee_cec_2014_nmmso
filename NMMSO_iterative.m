@@ -351,8 +351,8 @@ if (y > nmmso_state.active_modes(chg).swarm.pbest_values(nmmso_state.active_mode
 end
 
 
-nmmso_state.active_modes(chg).X(nmmso_state.index,:) = nmmso_state.active_modes(chg).swarm.new_location;
-nmmso_state.active_modes(chg).Y(nmmso_state.index) = y;
+nmmso_state.X(nmmso_state.index,:) = nmmso_state.active_modes(chg).swarm.new_location;
+nmmso_state.Y(nmmso_state.index) = y;
 nmmso_state.index = nmmso_state.index+1;
 
 %--------------------------------------------------------------------------
