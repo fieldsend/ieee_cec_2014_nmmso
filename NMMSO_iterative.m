@@ -288,7 +288,7 @@ if n>=1 && (length(nmmso_state.active_modes)>1) % only compare if there is a cha
                 nmmso_state.V_loc(to_compare(i,2))= nmmso_state.active_modes(to_compare(i,2)).swarm.mode_value;
                 to_merge = [to_merge; i];
                 nmmso_state.active_modes_changed(to_compare(i,2))=1; % track that the mode value has improved
-            elseif (nmmso_state.active_modes(to_compare(i,1)).swarm.mode_value < y) % better than mode 1 current mode, so merge
+            elseif (nmmso_state.active_modes(to_compare(i,1)).swarm.mode_value <= y) % better than (or equal to) mode 1 current mode, so merge
                 to_merge = [to_merge; i];
             end
             number_of_mid_evals = number_of_mid_evals+1;
