@@ -133,7 +133,7 @@ if (evaluations<max_evaluations) % if limited evalutions not already exhausted/e
     
     % create speculative new swarm, either at random in design space, or
     % via crossover
-    if rand()<0.5 || (length(nmmso_state.active_modes)==1) || (length(mx)==1)
+    if (rand()<0.5 || (length(nmmso_state.active_modes)==1) || (length(mx)==1) || (max_evol==1))
         number_of_evol_modes=0;
         [nmmso_state,number_rand_modes] = random_new(nmmso_state,problem_func,mn,mx,problem_function_params,swarm_size);
     else
