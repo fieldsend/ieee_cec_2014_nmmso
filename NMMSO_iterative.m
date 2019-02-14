@@ -52,26 +52,30 @@ function [mode_loc,mode_y,evaluations,nmmso_state] =  NMMSO_iterative( ...
 %   which are preallocated matrices to hold all locations visited 
 %   (therefore nmmso_state.X(1:evaluations,:) will hold all the design
 %   space locations visited by the optimiser thus far.
+%
+% Thanks to Chris Wood and Ally Hume at the Edinburgh Parallel
+% Computing Centre for identifying the error in the max_evol check
 
-if (evaluations<0)
+if (evaluations < 0)
    error('Must run algorithm for a positive number of function evaluations'); 
 end
-if exist('max_evol','var')==0
-    display('default max_eval used, set at 100');
-    max_evol=100;
+if exist('max_evol','var') == 0
+    disp('default max_eval used, set at 100');
+    max_evol = 100;
 end
 
-if max_evol<=0
-    display('Max_eval cannot be negative or zero, default max_eval used, set at 100');
-    max_evol=100;
+if max_evol <= 0
+    disp('Max_eval cannot be negative or zero, default max_eval used, set at 100');
+    max_evol = 100;
 end
 
-if exist('tol_val','var') ==0
+if exist('tol_val','var') == 0
+    disp('default tol_val used, set at 10^-6');
     tol_val = 10^-6;
 end
 
 
-if evaluations==0
+if evaluations == 0
     % preallocate matrices for speed, with a buffer at end in case of final
     % generation exploring begound max_evaluations limit
     nmmso_state.X = zeros(max_evaluations+500,length(mx));
@@ -97,7 +101,7 @@ end
 if (evaluations<max_evaluations) % if limited evalutions not already exhausted/exceeded
     % first see if modes should be merged together
     number_of_mid_evals=0;
-    while sum(nmmso_state.active_modes_changed)>0
+    while sum(nmmso_state.active_modes_changed) > 0
         [nmmso_state,merge_evals] = merge_swarms(nmmso_state,problem_func,problem_function_params,mn,mx);
         number_of_mid_evals = number_of_mid_evals+merge_evals; % track function evals used
     end
@@ -105,7 +109,7 @@ if (evaluations<max_evaluations) % if limited evalutions not already exhausted/e
     % Now increment the swarms
     % if we have more than max_evol, then only increment a subset
     limit = min(max_evol,length(nmmso_state.active_modes));
-    if limit>max_evol % have to select a subset
+    if length(nmmso_state.active_modes)>max_evol % have to select a subset
         if rand()<0.5 % select fittest
             [~, fit_I] = sort(nmmso_state.V_loc,'descend');
         else % select at random
