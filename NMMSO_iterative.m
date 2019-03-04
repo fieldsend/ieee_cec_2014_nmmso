@@ -512,7 +512,7 @@ else
 end
 
 II = randperm(n);
-% uniform crossover of two mode elements, either fittest two, or random two
+% uniform crossover of two mode elements
 R = UNI(nmmso_state.active_modes(I(II(1))).swarm.mode_location,nmmso_state.active_modes(I(II(2))).swarm.mode_location);
 
 
