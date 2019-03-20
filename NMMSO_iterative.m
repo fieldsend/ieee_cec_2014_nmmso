@@ -55,6 +55,7 @@ function [mode_loc,mode_y,evaluations,nmmso_state] =  NMMSO_iterative( ...
 %
 % Thanks to Chris Wood and Ally Hume at the Edinburgh Parallel
 % Computing Centre for identifying the error in the max_evol check
+% and indice selection in the evolve subroutine
 
 if (evaluations < 0)
    error('Must run algorithm for a positive number of function evaluations'); 
@@ -503,7 +504,7 @@ if n>max_evol
     if rand()<0.5
         [~, I] = sort(nmmso_state.V_loc,'descend');
     else
-        I=1:n;
+        I=randperm(n);
     end
     I = I(1:max_evol);
     n = max_evol;
@@ -648,6 +649,11 @@ r = find(rand(l,1)>0.5);
 if isempty(r)==1 % ensure at least one swapped
     r = randperm(l);
     r=r(1);
+else
+    if length(r) == l % complete swap of all elements of parents 
+        p = randperm(l);
+        r(p) = []; % randomly remove one of the elements to swap
+    end
 end
 x_c(r) = x2(r);
 x_d(r) = x1(r);
