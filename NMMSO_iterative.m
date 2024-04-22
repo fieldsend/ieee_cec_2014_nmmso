@@ -222,7 +222,7 @@ if n>=1 && (length(nmmso_state.active_modes)>1) % only compare if there is a cha
     to_compare = zeros(n,2);
     to_compare(:,1) = I;
     for i=1:n
-        d = dist2(nmmso_state.M_loc(I(i),:),nmmso_state.M_loc); % dist2 can be found in the freely available netlab tool suite
+        d = pdist2(nmmso_state.M_loc(I(i),:),nmmso_state.M_loc,'squaredeuclidean'); % pdist2 can be found in the Introduced in Statistics and Machine Learning Toolbox from R2010a
         d(I(i)) = inf; % will be closest to itself, so need to get second closest
         [tmp, to_compare(i,2)] = min(d);
         nmmso_state.active_modes(I(i)).swarm.dist = sqrt(tmp); % track Euc dist to nearest neighbour mode
@@ -273,7 +273,7 @@ if n>=1 && (length(nmmso_state.active_modes)>1) % only compare if there is a cha
     
     for i=1:n
         % merge if sufficiently close
-        if sqrt(dist2(nmmso_state.active_modes(to_compare(i,1)).swarm.mode_location,nmmso_state.active_modes(to_compare(i,2)).swarm.mode_location)) < nmmso_state.tol_val
+        if pdist2(nmmso_state.active_modes(to_compare(i,1)).swarm.mode_location,nmmso_state.active_modes(to_compare(i,2)).swarm.mode_location,'euclidean') < nmmso_state.tol_val
             to_merge = [to_merge; i]; % alas can't preallocate, as don't know the size
         else % otherwise merge if mid region is fitter
             % evaluate exact mid point between modes, and add to mode 2
@@ -564,7 +564,7 @@ if isempty(CI)==0
     % only look at splitting off member who is greater than tol_value
     % distance away -- otherwise will be merged right in again at the
     % next iteration
-    if sqrt(dist2(R,nmmso_state.active_modes(r).swarm.mode_location))>nmmso_state.tol_val 
+    if pdist2(R,nmmso_state.active_modes(r).swarm.mode_location,'euclidean')>nmmso_state.tol_val 
         
         mid_loc = 0.5*(nmmso_state.active_modes(r).swarm.mode_location-R)+R;
         
@@ -593,7 +593,7 @@ if isempty(CI)==0
             nmmso_state.converged_modes = [nmmso_state.converged_modes; 0];
             
             % remove from existing swarm and replace with mid eval
-            d = sqrt(dist2(nmmso_state.active_modes(r).swarm.mode_location,R));
+            d = pdist2(nmmso_state.active_modes(r).swarm.mode_location,R,'euclidean');
             
             nmmso_state.active_modes(r).swarm.history_locations(k,:) = mid_loc;
             nmmso_state.active_modes(r).swarm.history_values(k,:) = mid_loc_val;
